@@ -245,11 +245,15 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     toogleSlow(){
-        console.log("TORTUGA");
-        this.lessonService.putSlow(this.lesson.id)
-        console.log(this.lesson.id);
-        console.log(this.lesson.slow)
-
+        this.lessonService.putSlow(this.lesson.id).subscribe(
+            response => {
+                // Lesson has been updated
+                console.log('Lesson edited: ');
+                console.log(this.lesson.slow);
+            },
+            error => {
+                console.log(error);
+            });
     }
 
     exitFullScreen() {
