@@ -128,6 +128,7 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
         this.previousConnectionStuff();
 
 
+        
         if (this.authenticationService.isTeacher()) {
 
             // If the user is the teacher: creates the session and gets a token (with PUBLISHER role)
@@ -170,6 +171,8 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // Specific aspects of this concrete application
         this.afterConnectionStuff();
+
+        this.updateLesson();
     }
 
     ngAfterViewInit() {
@@ -242,14 +245,24 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
     toggleRaiseHand(){
         this.raiseHandIcon = 'pan_tool';
         console.log('HAND UP');
+        this.lessonService.getLesson(this.lesson.id).subscribe(
+            response => {
+                // Lesson has been updatedcd 
+                console.log('GET LESSON: ');
+                console.log(response);
+            },
+            error => {
+                console.log(error);
+            });
     }
 
     toogleSlow(){
+        console.log("BEFORE: "+ this.lesson.slow)
         this.lessonService.putSlow(this.lesson.id).subscribe(
             response => {
                 // Lesson has been updated
                 console.log('Lesson edited: ');
-                console.log(this.lesson.slow);
+                console.log(response);
             },
             error => {
                 console.log(error);
@@ -273,6 +286,15 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
     previousConnectionStuff() {
         this.lesson = this.videoSessionService.lesson;
         this.cameraOptions = this.videoSessionService.cameraOptions;
+    }
+
+    updateLesson() {
+        this.lessonService.getLesson(this.lesson.id).subscribe(
+            response => {
+                console.log('Get lessons')
+                console.log(response)
+            }
+        );
     }
 
     afterConnectionStuff() {

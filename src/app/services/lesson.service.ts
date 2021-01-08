@@ -37,7 +37,6 @@ export class LessonService {
     }
 
     getSlow(lessonId: number) {
-        console.log("GET SLOW");
         const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.authenticationService.token });
         const options = new RequestOptions({ headers });
         return this.http.get(this.url + '/lesson/' + lessonId +'/slow', options) // Must send userId
@@ -52,11 +51,12 @@ export class LessonService {
         const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.authenticationService.token });
         const options = new RequestOptions({ headers });
         return this.http.put(this.url + '/lesson/' + lessonId +'/slow', options) // Must send userId
-            .pipe(
-                map((response: Response) => console.log("RESPOST: " + response.status)),
-                catchError(error => this.handleError(error))
-            );
+        .pipe(
+            map(response => response.json() as Lesson),
+            catchError(error => this.handleError(error))
+        );
     }
+
 
     // POST new lesson. On success returns the created lesson
     newLesson(lesson: Lesson) {
