@@ -192,6 +192,18 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.OV) { this.session.disconnect(); }
     }
 
+    getLesson(): void {
+        this.lessonService.getLesson(this.lesson.id).subscribe(
+            lesson => {
+                console.log('GET LESSON: ');
+                console.log(lesson);
+                this.lesson = lesson;
+                this.authenticationService.updateUserLessons(this.lesson);
+            },
+            error => console.log(error));
+    }
+
+
     toggleScrollPage(scroll: string) {
         const content = <HTMLElement>document.getElementsByClassName('mat-sidenav-content')[0];
         content.style.overflow = scroll;
@@ -288,11 +300,12 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
         this.cameraOptions = this.videoSessionService.cameraOptions;
     }
 
-    updateLesson() {
+    updateLesson(){
         this.lessonService.getLesson(this.lesson.id).subscribe(
             response => {
                 console.log('Get lessons')
                 console.log(response)
+                this.lesson = response
             }
         );
     }
