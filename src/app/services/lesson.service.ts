@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { throwError as observableThrowError } from 'rxjs';
+import { Observable, throwError as observableThrowError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import 'rxjs/Rx';
 import { Lesson } from '../models/lesson';
@@ -26,22 +26,20 @@ export class LessonService {
     }
 
     getLesson(lessonId: number) {
-        console.log("GET LESSON");
-        const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.authenticationService.token });
-        const options = new RequestOptions({ headers });
-        return this.http.get(this.url + '/lesson/' + lessonId, options) // Must send userId
+        return this.http.get(this.url + '/lesson/' + lessonId)
             .pipe(
-                map((response: Response) => response.json() as Lesson),
+                map(response => response.json() as Lesson),
                 catchError(error => this.handleError(error))
             );
     }
 
-    getSlow(lessonId: number) {
+
+    getSlow(lessonId: number){
         const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.authenticationService.token });
         const options = new RequestOptions({ headers });
         return this.http.get(this.url + '/lesson/' + lessonId +'/slow', options) // Must send userId
             .pipe(
-                map((response: Response) => console.log(response.json())),
+                map(response => console.log(response.json())),
                 catchError(error => this.handleError(error))
             );
     }
@@ -51,10 +49,10 @@ export class LessonService {
         const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.authenticationService.token });
         const options = new RequestOptions({ headers });
         return this.http.put(this.url + '/lesson/' + lessonId +'/slow', options) // Must send userId
-        .pipe(
-            map(response => response.json() as Lesson),
-            catchError(error => this.handleError(error))
-        );
+            .pipe(
+                map(response => response.json() as Lesson),
+                catchError(error => this.handleError(error))
+            );
     }
 
 

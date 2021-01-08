@@ -6,6 +6,8 @@ import { Lesson } from '../../models/lesson';
 import { AuthenticationService } from '../../services/authentication.service';
 import { VideoSessionService } from '../../services/video-session.service';
 import { LessonService } from '../../services/lesson.service';
+import { map } from 'rxjs/operators';
+import { interval, Observable } from 'rxjs';
 
 
 @Component({
@@ -16,6 +18,8 @@ import { LessonService } from '../../services/lesson.service';
 export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
 
     lesson: Lesson;
+
+    lesson$: Observable<Lesson>
 
     OV: OpenVidu;
     session: Session;
@@ -168,11 +172,11 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
         }
 
-
+       
         // Specific aspects of this concrete application
         this.afterConnectionStuff();
 
-        this.updateLesson();
+        interval(1000).subscribe(x => this.updateLesson())
     }
 
     ngAfterViewInit() {
@@ -303,11 +307,12 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
     updateLesson(){
         this.lessonService.getLesson(this.lesson.id).subscribe(
             response => {
-                console.log('Get lessons')
-                console.log(response)
-                this.lesson = response
-            }
-        );
+                console.log(response.slow);
+                this.lesson = response;
+            },
+            error => {
+              console.log(error);
+            });
     }
 
     afterConnectionStuff() {
