@@ -307,13 +307,22 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
     updateLesson(){
         this.lessonService.getLesson(this.lesson.id).subscribe(
             response => {
-                console.log(response.hand);
+                if ((this.lesson.slow == false && response.slow == true) && this.authenticationService.isTeacher()){
+                    let snack = this.snackBar.open('Go slow please!!', 'End now', {
+                        horizontalPosition: 'right',
+                        verticalPosition: 'top',
+                      });
+                      snack.onAction().subscribe(() => {
+                        this.toogleSlow();
+                      });
+                }
                 this.lesson = response;
             },
             error => {
               console.log(error);
             });
     }
+
 
     afterConnectionStuff() {
         if (this.authenticationService.isTeacher()) {
