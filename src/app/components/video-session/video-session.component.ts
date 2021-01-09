@@ -316,6 +316,15 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
                         this.toogleSlow();
                       });
                 }
+                if ((JSON.stringify(this.lesson.hand) != JSON.stringify(response.hand)) && this.authenticationService.isTeacher() && response.hand.length != 0){
+                    let snack = this.snackBar.open(response.hand[0].nickName + ' have a question !! (1/'+response.hand.length+')', 'Hand down', {
+                        horizontalPosition: 'right',
+                        verticalPosition: 'top',
+                      });
+                      snack.onAction().subscribe(() => {
+                        this.toggleRaiseHand()
+                      });
+                }
                 this.lesson = response;
             },
             error => {
