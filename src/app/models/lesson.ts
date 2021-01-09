@@ -7,10 +7,12 @@ export class Lesson {
   public teacher: User;
   public attenders: User[];
   public slow: boolean;
+  public hand: User[];
 
   constructor(title: string) {
     this.title = title;
     this.attenders = [];
+    this.hand = [];
   }
 
 }

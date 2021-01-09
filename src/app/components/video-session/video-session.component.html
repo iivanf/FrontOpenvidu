@@ -3,7 +3,7 @@
     <mat-icon class="right-btn" (click)="toggleFullScreen()" [title]="'Fullscreen'">{{fullscreenIcon}}</mat-icon>
     <mat-icon *ngIf="authenticationService.isTeacher()" class="right-btn" (click)="toggleLocalVideo()" [title]="'Toggle video'">{{videoIcon}}</mat-icon>
     <mat-icon *ngIf="authenticationService.isTeacher()" class="right-btn" (click)="toggleLocalAudio()" [title]="'Toggle audio'">{{audioIcon}}</mat-icon>
-    <mat-icon id="hand" *ngIf="!authenticationService.isTeacher()" class="right-btn" (click)="toggleRaiseHand()" [title]="'Raise Hand'">pan_tool</mat-icon>
+    <mat-icon id="hand" class="right-btn" (click)="toggleRaiseHand()" [title]="'Raise Hand'">pan_tool</mat-icon>
     <!-- <mat-icon *ngIf="authenticationService.isTeacher()" class="right-btn" (click)="toogleScreenShare()" [title]="'Share Screen'">screen_share</mat-icon> -->
     <img src="assets/img/tortuga.png" (click)="toogleSlow()"[title]="'tortuga'" class="right-btn" style="width: 50px; height: 50px;">
     <h1>{{lesson?.title}}</h1>

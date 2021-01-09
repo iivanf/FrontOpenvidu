@@ -261,10 +261,10 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
     toggleRaiseHand(){
         this.raiseHandIcon = 'pan_tool';
         console.log('HAND UP');
-        this.lessonService.getLesson(this.lesson.id).subscribe(
+        this.lessonService.putHand(this.lesson.id).subscribe(
             response => {
                 // Lesson has been updatedcd 
-                console.log('GET LESSON: ');
+                console.log('try : ');
                 console.log(response);
             },
             error => {
@@ -307,7 +307,7 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
     updateLesson(){
         this.lessonService.getLesson(this.lesson.id).subscribe(
             response => {
-                console.log(response.slow);
+                console.log(response.hand);
                 this.lesson = response;
             },
             error => {

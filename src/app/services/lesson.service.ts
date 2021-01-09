@@ -55,6 +55,17 @@ export class LessonService {
             );
     }
 
+    putHand(lessonId: number){
+        console.log("PUT HAND");
+        const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.authenticationService.token });
+        const options = new RequestOptions({ headers });
+        return this.http.put(this.url + '/lesson/' + lessonId +'/hand', options) // Must send userId
+            .pipe(
+                map(response => response.json()),
+                catchError(error => this.handleError(error))
+            );
+    }
+
 
     // POST new lesson. On success returns the created lesson
     newLesson(lesson: Lesson) {
