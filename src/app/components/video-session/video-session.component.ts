@@ -42,7 +42,9 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
         public authenticationService: AuthenticationService,
         private videoSessionService: VideoSessionService,
         private lessonService: LessonService,
-        private snackBar: MatSnackBar) { }
+        private snackBar: MatSnackBar,
+        private snackBarHand: MatSnackBar,
+        ) { }
 
 
     OPEN_VIDU_CONNECTION() {
@@ -314,15 +316,33 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
                       });
                       snack.onAction().subscribe(() => {
                         this.toogleSlow();
+                        if(this.lesson.hand.length != 0){
+                            let snack = this.snackBarHand.open(response.hand[0].nickName + ' have a question !! (1/'+response.hand.length+')', 'Hand down', {
+                                horizontalPosition: 'right',
+                                verticalPosition: 'top',
+                              });
+                              snack.onAction().subscribe(() => {
+                                this.toggleRaiseHand()
+                              });
+                        }
                       });
                 }
                 if ((JSON.stringify(this.lesson.hand) != JSON.stringify(response.hand)) && this.authenticationService.isTeacher() && response.hand.length != 0){
-                    let snack = this.snackBar.open(response.hand[0].nickName + ' have a question !! (1/'+response.hand.length+')', 'Hand down', {
+                    let snack = this.snackBarHand.open(response.hand[0].nickName + ' have a question !! (1/'+response.hand.length+')', 'Hand down', {
                         horizontalPosition: 'right',
                         verticalPosition: 'top',
                       });
                       snack.onAction().subscribe(() => {
                         this.toggleRaiseHand()
+                        if(this.lesson.slow){
+                            let snack = this.snackBar.open('Go slow please!!', 'End now', {
+                                horizontalPosition: 'right',
+                                verticalPosition: 'top',
+                              });
+                              snack.onAction().subscribe(() => {
+                                this.toogleSlow();
+                              });
+                        }
                       });
                 }
                 this.lesson = response;
