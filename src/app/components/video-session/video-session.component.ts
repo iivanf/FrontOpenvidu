@@ -326,7 +326,7 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
                       snack.onAction().subscribe(() => {
                         this.toogleSlow();
                         if(this.lesson.hand.length != 0){
-                            let snack = this.snackBarHand.open(response.hand[response.hand.length-1].nickName + ' have a question !! (1/'+response.hand.length+')', 'Hand down', {
+                            let snack = this.snackBarHand.open(response.hand[response.hand.length-1].nickName + ' has a question !! (1/'+response.hand.length+')', 'Hand down', {
                                 horizontalPosition: 'right',
                                 verticalPosition: 'top',
                               });
@@ -338,7 +338,7 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
                 if ((JSON.stringify(this.lesson.hand) != JSON.stringify(response.hand)) && this.authenticationService.isTeacher() && response.hand.length != 0){
                     this.playAudio();
-                    let snack = this.snackBarHand.open(response.hand[response.hand.length-1].nickName + ' have a question !! (1/'+response.hand.length+')', 'Hand down', {
+                    let snack = this.snackBarHand.open(response.hand[response.hand.length-1].nickName + ' has a question !! (1/'+response.hand.length+')', 'Hand down', {
                         horizontalPosition: 'right',
                         verticalPosition: 'top',
                       });
