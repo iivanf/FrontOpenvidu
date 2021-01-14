@@ -185,6 +185,7 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
         this.toggleScrollPage('hidden');
     }
 
+
     ngOnDestroy() {
         this.videoSessionService.removeUser(this.lesson.id).subscribe(
             response => {
@@ -197,6 +198,13 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
         this.exitFullScreen();
         if (this.OV) { this.session.disconnect(); }
     }
+
+    playAudio(){
+        let audio = new Audio();
+        audio.src = "assets/sound/notification.mp3";
+        audio.load();
+        audio.play();
+      }
 
     getLesson(): void {
         this.lessonService.getLesson(this.lesson.id).subscribe(
@@ -310,6 +318,7 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
         this.lessonService.getLesson(this.lesson.id).subscribe(
             response => {
                 if ((this.lesson.slow == false && response.slow == true) && this.authenticationService.isTeacher()){
+                    this.playAudio();
                     let snack = this.snackBar.open('Go slow please!!', 'End now', {
                         horizontalPosition: 'right',
                         verticalPosition: 'top',
@@ -328,6 +337,7 @@ export class VideoSessionComponent implements OnInit, OnDestroy, AfterViewInit {
                       });
                 }
                 if ((JSON.stringify(this.lesson.hand) != JSON.stringify(response.hand)) && this.authenticationService.isTeacher() && response.hand.length != 0){
+                    this.playAudio();
                     let snack = this.snackBarHand.open(response.hand[0].nickName + ' have a question !! (1/'+response.hand.length+')', 'Hand down', {
                         horizontalPosition: 'right',
                         verticalPosition: 'top',
